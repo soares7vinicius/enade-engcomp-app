@@ -1,4 +1,4 @@
-package com.example.marco.enade_engcomp_app;
+package br.com.pdm.enade_engcomp_app;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

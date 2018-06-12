@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "426178813077",
+    "firebase_url": "https://enade-ecomp.firebaseio.com",
+    "project_id": "enade-ecomp",
+    "storage_bucket": "enade-ecomp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426178813077:android:c88b7291070bb01d",
+        "android_client_info": {
+          "package_name": "br.com.pdm.enade_engcomp_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426178813077-dpvo48frgpu42gfm1s84dum869ba7e51.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.pdm.enade_engcomp_app",
+            "certificate_hash": "483f26d11cd5e42c7dff66b8781fe8d785371e4e"
+          }
+        },
+        {
+          "client_id": "426178813077-apj7gdsobvqn86uojis6rjr9ah8s8h1n.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "426178813077-apj7gdsobvqn86uojis6rjr9ah8s8h1n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGvGJWXh-zwJpeFlAcbftWAJL0oNHeu0M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426178813077-apj7gdsobvqn86uojis6rjr9ah8s8h1n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

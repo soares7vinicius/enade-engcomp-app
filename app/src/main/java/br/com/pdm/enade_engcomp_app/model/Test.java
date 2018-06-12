@@ -1,4 +1,4 @@
-package com.example.marco.enade_engcomp_app.model;
+package br.com.pdm.enade_engcomp_app.model;
 
 import java.util.List;
 

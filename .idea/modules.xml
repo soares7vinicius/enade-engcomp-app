@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/enade-engcomp-app.iml" filepath="$PROJECT_DIR$/enade-engcomp-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/eng-comp-app.iml" filepath="$PROJECT_DIR$/eng-comp-app.iml" />
     </modules>
   </component>
