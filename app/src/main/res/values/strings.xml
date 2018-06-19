@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Enade-engcomp-app</string>
+    <string name="app_name">Enade EComp</string>
+    <string name="enade_ecomp">Enade EComp</string>
+    <string name="login_facebook">{fa-facebook 250%} Entrar com Facebook</string>
+    <string name="login_google">{fa-google 250%} Entrar com Google</string>
+    <string name="login_error">Erro ao tentar logar</string>
+    <string name="logout">Sair</string>
 </resources>
