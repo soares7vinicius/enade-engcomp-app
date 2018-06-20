@@ -26,6 +26,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleApiClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     private static final String TAG = "MAIN_ACTIVITY";
 
@@ -48,16 +52,20 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        this.databaseTest();
-
         buttonLoginGoogle = (Button) findViewById(R.id.buttonLoginGoogle);
+
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
+                    registerUser();
                     Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         };
@@ -141,29 +149,17 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
+    private void registerUser(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private void databaseTest(){
-        //https://code.tutsplus.com/tutorials/getting-started-with-cloud-firestore-for-android--cms-30382
+        CollectionReference users = db.collection("users");
+        FirebaseUser user = mAuth.getCurrentUser();
 
-        FirebaseFirestore myDB = FirebaseFirestore.getInstance();
+        Map<String, Object> user_registry = new HashMap<>();
+        user_registry.put("name", user.getDisplayName());
+        user_registry.put("photo", user.getPhotoUrl().toString());
 
-        CollectionReference solarSystem = myDB.collection("solar_system");
-
-        Map<String, Object> planet = new HashMap<>();
-        planet.put("name", "Mercury");
-        planet.put("number", 1);
-        planet.put("gravity", 3.7);
-        solarSystem.document("1").set(planet);
-
-        planet = new HashMap<>();
-        planet.put("name", "Venus");
-        planet.put("number", 2);
-        planet.put("gravity", 8.87);
-        solarSystem.document("2").set(planet);
-
-        DocumentReference mercury = myDB.collection("solar_system")
-                .document("1");
-
-        //Log.d("Planet", mercury.toString());
+        // registry "primary key" is the UID from getUid()
+        users.document(user.getUid()).set(user_registry);
     }
 }

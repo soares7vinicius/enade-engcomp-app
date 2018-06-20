@@ -24,6 +24,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.1'
+    implementation 'com.android.support:design:26.1.0'
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:support-annotations:27.1.1'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -31,6 +32,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-core:11.8.0'
     implementation 'com.google.firebase:firebase-firestore:11.8.0'
+    implementation 'com.google.firebase:firebase-storage:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
     implementation 'com.google.android.gms:play-services-auth:11.8.0'
     implementation 'com.google.android.gms:play-services-ads:11.8.0'
@@ -40,6 +42,7 @@ dependencies {
     implementation 'com.joanzapata.iconify:android-iconify-fontawesome:2.2.2' // (v4.5)
 
 }
+
 
 
 apply plugin: 'com.google.gms.google-services'
