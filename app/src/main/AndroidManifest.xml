@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.AccountActivity" />
+        <activity android:name=".activities.SimulatedActivity"></activity>
     </application>
 
 </manifest>
