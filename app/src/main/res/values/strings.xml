@@ -5,4 +5,10 @@
     <string name="login_google">{fa-google 250%} Entrar com Google</string>
     <string name="login_error">Erro ao tentar logar</string>
     <string name="logout">Sair</string>
+    <string name="test_tab">Simulado</string>
+    <string name="trainning_tab">Treino</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="error_categories_query">Erro ao buscar as Categorias</string>
 </resources>

@@ -20,7 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.AccountActivity" />
-        <activity android:name=".activities.SimulatedActivity"></activity>
+        <activity android:name=".activities.SimulatedActivity" />
+        <activity android:name=".activities.MainActivity"></activity>
     </application>
 
 </manifest>

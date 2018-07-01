@@ -5,20 +5,25 @@ package br.com.pdm.enade_engcomp_app.model;
  */
 
 public class Question {
-    private long id;
-    private String description;
+    private String id;
+    private String description_1;
+    private String description_2;
+    private String image;
+    private String reference;
     private int year;
     private String alt_a;
     private String alt_b;
     private String alt_c;
     private String alt_d;
     private String alt_e;
-    private char alt_correct;
+    private String alt_correct;
     private Category category;
 
-    public Question(String description, int year, String alt_a, String alt_b,
-                    String alt_c, String alt_d, String alt_e, char alt_correct, Category category) {
-        this.description = description;
+    public Question(String description_1, String description_2, String image, String reference, int year, String alt_a, String alt_b, String alt_c, String alt_d, String alt_e, String alt_correct, Category category) {
+        this.description_1 = description_1;
+        this.description_2 = description_2;
+        this.image = image;
+        this.reference = reference;
         this.year = year;
         this.alt_a = alt_a;
         this.alt_b = alt_b;
@@ -29,34 +34,44 @@ public class Question {
         this.category = category;
     }
 
-    public Question(long id, String description, int year, String alt_a, String alt_b,
-                    String alt_c, String alt_d, String alt_e, char alt_correct, Category category) {
-        this.id = id;
-        this.description = description;
-        this.year = year;
-        this.alt_a = alt_a;
-        this.alt_b = alt_b;
-        this.alt_c = alt_c;
-        this.alt_d = alt_d;
-        this.alt_e = alt_e;
-        this.alt_correct = alt_correct;
-        this.category = category;
-    }
-
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescription_1() {
+        return description_1;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription_1(String description_1) {
+        this.description_1 = description_1;
+    }
+
+    public String getDescription_2() {
+        return description_2;
+    }
+
+    public void setDescription_2(String description_2) {
+        this.description_2 = description_2;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
     public int getYear() {
@@ -107,11 +122,11 @@ public class Question {
         this.alt_e = alt_e;
     }
 
-    public char getAlt_correct() {
+    public String getAlt_correct() {
         return alt_correct;
     }
 
-    public void setAlt_correct(char alt_correct) {
+    public void setAlt_correct(String alt_correct) {
         this.alt_correct = alt_correct;
     }
 
@@ -122,8 +137,4 @@ public class Question {
     public void setCategory(Category category) {
         this.category = category;
     }
-
-
-
-
 }
