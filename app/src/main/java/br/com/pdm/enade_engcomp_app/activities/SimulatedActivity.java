@@ -1,8 +1,6 @@
 package br.com.pdm.enade_engcomp_app.activities;
 
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.pdm.enade_engcomp_app.R;
-import br.com.pdm.enade_engcomp_app.model.Category;
 import br.com.pdm.enade_engcomp_app.model.Question;
 
 public class SimulatedActivity extends AppCompatActivity {
@@ -89,18 +86,23 @@ public class SimulatedActivity extends AppCompatActivity {
     }
 
     private void startTraining(String catId){
+        DocumentReference category = db.collection("categories").document(catId);
         CollectionReference questionsRef = db.collection("questions");
-        questionsRef.whereEqualTo("category", "categories/"+catId).limit(10)
+
+        questionsRef.whereEqualTo("category", category).limit(10)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                List<Question> questions = new ArrayList<>();
-                for(DocumentSnapshot doc : documentSnapshots){
-                    Question q = doc.toObject(Question.class).withId(doc.getId());
-                    questions.add(q);
-                }
-            }
-        });
+                    @Override
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        List<Question> questions = new ArrayList<>();
+                        for(DocumentSnapshot doc : documentSnapshots){
+                            Question q = doc.toObject(Question.class).withId(doc.getId());
+                            questions.add(q);
+                        }
+
+                        //lista de questoes pronta aqui
+                        Log.d("train size",questions.size()+"");
+                    }
+                });
     }
 
     private void startTest(String testId){

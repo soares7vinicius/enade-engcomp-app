@@ -1,5 +1,6 @@
 package br.com.pdm.enade_engcomp_app.model;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
 
 import java.util.List;
@@ -14,25 +15,33 @@ public class Test extends Model {
 
     private int correct_qtt = 0;
     private int points = 0;
-    List<Question> questions;
-    User user;
+    private List<DocumentReference> questions;
+    private  DocumentReference user;
 
     public Test(){}
 
-    public Test(User user){
+    public Test(DocumentReference user){
         this.user = user;
     }
 
-    public Test(int correct_qtt, int points, User user) {
+    public Test(int correct_qtt, int points, DocumentReference user) {
         this.correct_qtt = correct_qtt;
         this.points = points;
         this.user = user;
     }
 
-    public Test(int correct_qtt, int points, List<Question> questions, User user) {
+    public Test(int correct_qtt, int points, List<DocumentReference> questions, DocumentReference user) {
         this.correct_qtt = correct_qtt;
         this.points = points;
         this.questions = questions;
+        this.user = user;
+    }
+
+    public DocumentReference getUser() {
+        return user;
+    }
+
+    public void setUser(DocumentReference user) {
         this.user = user;
     }
 
@@ -56,11 +65,11 @@ public class Test extends Model {
         this.points = points;
     }
 
-    public List<Question> getQuestions() {
+    public List<DocumentReference> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(List<DocumentReference> questions) {
         this.questions = questions;
     }
 }

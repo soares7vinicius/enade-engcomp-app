@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,26 +63,27 @@ public class TestFragment extends Fragment {
         fUser = mAuth.getCurrentUser();
     }
 
+    public void getUserTests(){
+
+    }
+
     public void onClickNewTest(View view){
-        final User user = new User(fUser.getDisplayName(), fUser.getPhotoUrl().toString())
-                .withId(fUser.getUid());
-        final Test test = new Test(user);
+
+        final Test test = new Test();
 
         //getting random questions list sized 10
         db.collection("questions").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()){
-                    List<Question> questions = new ArrayList<>();
+                    List<DocumentReference> questions = new ArrayList<>();
                     for(DocumentSnapshot doc : task.getResult()){
-                        Question q = doc.toObject(Question.class).withId(doc.getId());
-                        questions.add(q);
+                        questions.add(doc.getReference());
                     }
 
                     Collections.shuffle(questions);
                     questions = questions.subList(0, 10);
                     test.setQuestions(questions);
-
                     createTest(test);
                 }
             }
@@ -91,16 +93,23 @@ public class TestFragment extends Fragment {
                 Toast.makeText(getContext(), R.string.error_questions_query, Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        Intent intent = new Intent(getContext(), SimulatedActivity.class);
-        intent.putExtra("IS_TEST", true);
-        intent.putExtra("TEST_ID", "");
-        startActivity(intent);
     }
 
     private void createTest(Test test){
-        //TODO: create test on DB and call test activity
+        db.collection("tests").add(test).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Intent intent = new Intent(getContext(), SimulatedActivity.class);
+                intent.putExtra("IS_TEST", true);
+                intent.putExtra("TEST_ID", documentReference.getId());
+                startActivity(intent);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getContext(), R.string.error_test_create, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }
