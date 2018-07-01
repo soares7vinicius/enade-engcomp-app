@@ -76,15 +76,6 @@ public class TrainningFragment extends Fragment {
         return fragmentView;
     }
 
-    public void onClickNewTraining(View view){
-
-        //getViewById do item q clicou
-        String catId = "id da categoria"; //nao esquecer
-        Intent intent = new Intent(getContext(), SimulatedActivity.class);
-        intent.putExtra("IS_TEST", false);
-        intent.putExtra("CATEGORY_ID", catId);
-        startActivity(intent);
-    }
 
     private void getCategories(){
         categoriesReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

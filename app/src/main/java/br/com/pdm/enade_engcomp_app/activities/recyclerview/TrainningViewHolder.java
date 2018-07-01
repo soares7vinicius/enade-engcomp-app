@@ -10,6 +10,7 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import br.com.pdm.enade_engcomp_app.R;
+import br.com.pdm.enade_engcomp_app.activities.SimulatedActivity;
 import br.com.pdm.enade_engcomp_app.model.Category;
 
 /**
@@ -36,6 +37,12 @@ public class TrainningViewHolder extends RecyclerView.ViewHolder implements View
     @Override
     public void onClick(View v) {
         //quando clicar na categoria
+        //getViewById do item q clicou
+        String catId = this.category.getId(); //nao esquecer
+        Intent intent = new Intent(v.getContext(), SimulatedActivity.class);
+        intent.putExtra("IS_TEST", false);
+        intent.putExtra("CATEGORY_ID", catId);
+        v.getContext().startActivity(intent);
         Toast.makeText(v.getContext(), "clicou", Toast.LENGTH_LONG).show();
     }
 }
