@@ -4,13 +4,12 @@ package br.com.pdm.enade_engcomp_app.model;
  * Created by marco on 31/05/2018.
  */
 
-public class Question {
-    private String id;
+public class Question extends Model {
     private String description_1;
     private String description_2;
     private String image;
     private String reference;
-    private int year;
+    private String year;
     private String alt_a;
     private String alt_b;
     private String alt_c;
@@ -19,7 +18,11 @@ public class Question {
     private String alt_correct;
     private Category category;
 
-    public Question(String description_1, String description_2, String image, String reference, int year, String alt_a, String alt_b, String alt_c, String alt_d, String alt_e, String alt_correct, Category category) {
+    public Question(){}
+
+    public Question(String description_1, String description_2, String image, String reference,
+                    String year, String alt_a, String alt_b, String alt_c, String alt_d,
+                    String alt_e, String alt_correct, Category category) {
         this.description_1 = description_1;
         this.description_2 = description_2;
         this.image = image;
@@ -32,14 +35,6 @@ public class Question {
         this.alt_e = alt_e;
         this.alt_correct = alt_correct;
         this.category = category;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDescription_1() {
@@ -74,11 +69,11 @@ public class Question {
         this.reference = reference;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
