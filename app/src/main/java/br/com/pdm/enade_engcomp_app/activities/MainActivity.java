@@ -14,7 +14,6 @@ import br.com.pdm.enade_engcomp_app.activities.fragments.TestFragment;
 import br.com.pdm.enade_engcomp_app.activities.fragments.TrainningFragment;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\marco\Documents\Desenvolvimento\IFTM\PDM\enade-engcomp-app\app\app.iml" filepath="C:\Users\marco\Documents\Desenvolvimento\IFTM\PDM\enade-engcomp-app\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/enade-engcomp-app.iml" filepath="$PROJECT_DIR$/enade-engcomp-app.iml" />
-      <module fileurl="file://C:\Users\marco\Documents\Desenvolvimento\IFTM\PDM\enade-engcomp-app\enade-engcomp-app.iml" filepath="C:\Users\marco\Documents\Desenvolvimento\IFTM\PDM\enade-engcomp-app\enade-engcomp-app.iml" />
     </modules>
   </component>
 </project>
