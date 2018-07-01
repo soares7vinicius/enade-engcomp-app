@@ -17,11 +17,9 @@ import br.com.pdm.enade_engcomp_app.model.Category;
 
 public class TrainningAdapter extends RecyclerView.Adapter<TrainningViewHolder>{
     private List<Category> categories;
-    private int count;
 
     public TrainningAdapter(List<Category> categories){
         this.categories = categories;
-        this.count = this.categories.size();
     }
 
     @Override
@@ -35,7 +33,6 @@ public class TrainningAdapter extends RecyclerView.Adapter<TrainningViewHolder>{
         View view = inflater.inflate(layoutID, parent, attachToParent);
 
         TrainningViewHolder trainningVHolder = new TrainningViewHolder(view);
-        this.count++;
         return trainningVHolder;
     }
 
@@ -46,6 +43,6 @@ public class TrainningAdapter extends RecyclerView.Adapter<TrainningViewHolder>{
 
     @Override
     public int getItemCount() {
-        return this.count;
+        return this.categories !=null ? this.categories.size():0;
     }
 }

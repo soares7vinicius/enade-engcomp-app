@@ -24,7 +24,7 @@ public class TrainningViewHolder extends RecyclerView.ViewHolder implements View
     public TrainningViewHolder(View itemView) {
         super(itemView);
         this.trainningCard = (CardView) itemView.findViewById(R.id.trainningCard);
-        trainningCard.setOnClickListener(this);
+        this.trainningCard.setOnClickListener(this);
     }
 
     public void bind(Category category){
