@@ -89,7 +89,8 @@ public class TestFragment extends Fragment {
             @Override
             public void onClick(View view){
 
-                final Test test = new Test();
+                DocumentReference user = db.collection("users").document(fUser.getUid());
+                final Test test = new Test(user);
 
                 //getting random questions list sized 10
                 db.collection("questions").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

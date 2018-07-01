@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class Test extends Model {
-    @Exclude
+
     private final int questions_qtt = 10;
 
     private int correct_qtt = 0;
@@ -45,6 +45,7 @@ public class Test extends Model {
         this.user = user;
     }
 
+    @Exclude
     public int getQuestions_qtt() {
         return questions_qtt;
     }
