@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
             fragments.add(new TrainningFragment());
 
             titles = new ArrayList<String>();
-            titles.add(getString(R.string.trainning_tab));
             titles.add(getString(R.string.test_tab));
+            titles.add(getString(R.string.trainning_tab));
         }
 
         @Override
