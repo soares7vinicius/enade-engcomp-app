@@ -29,6 +29,7 @@ import java.util.List;
 
 import br.com.pdm.enade_engcomp_app.R;
 import br.com.pdm.enade_engcomp_app.model.Question;
+import br.com.pdm.enade_engcomp_app.model.Test;
 
 public class SimulatedActivity extends AppCompatActivity {
 
@@ -105,7 +106,12 @@ public class SimulatedActivity extends AppCompatActivity {
         testRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                //TODO: retrieve test
+                Test test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
+
+
+                //objeto test disponivel aqui
+                Log.d("test id", test.getId()+"");
+                Log.d("test questions size", test.getQuestions().size()+"");
             }
         });
     }

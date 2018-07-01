@@ -25,7 +25,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -33,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.pdm.enade_engcomp_app.R;
+import br.com.pdm.enade_engcomp_app.model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -152,14 +156,23 @@ public class LoginActivity extends AppCompatActivity {
     private void registerUser(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        CollectionReference users = db.collection("users");
-        FirebaseUser user = mAuth.getCurrentUser();
+        final CollectionReference users = db.collection("users");
+        final FirebaseUser fUser = mAuth.getCurrentUser();
 
-        Map<String, Object> user_registry = new HashMap<>();
-        user_registry.put("name", user.getDisplayName());
-        user_registry.put("photo", user.getPhotoUrl().toString());
-
-        // registry "primary key" is the UID from getUid()
-        users.document(user.getUid()).set(user_registry);
+        users.document(fUser.getUid())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                User user;
+                if(documentSnapshot.exists()){
+                    user = new User(fUser.getDisplayName(), fUser.getPhotoUrl().toString(),
+                            documentSnapshot.getLong("points"));
+                }else{
+                    user = new User(fUser.getDisplayName(),
+                            fUser.getPhotoUrl().toString(), 0);
+                }
+                users.document(fUser.getUid()).set(user);
+            }
+        });
     }
 }

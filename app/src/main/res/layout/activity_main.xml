@@ -14,8 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/primaryColor"
-        app:tabTextColor="@color/primaryTextColor"
-        app:tabIndicatorColor="@color/primaryTextColor">
+        app:tabTextColor="@color/white"
+        app:tabIndicatorColor="@color/white"
+        app:tabSelectedTextColor="@color/white">
 
         <android.support.design.widget.TabItem
             android:layout_width="wrap_content"

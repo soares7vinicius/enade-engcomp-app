@@ -7,13 +7,23 @@ package br.com.pdm.enade_engcomp_app.model;
 public class User extends Model{
     private String name;
     private String photo;
+    private long points;
 
     public User() {
     }
 
-    public User(String name, String photo) {
+    public User(String name, String photo, long points) {
         this.name = name;
         this.photo = photo;
+        this.points = points;
+    }
+
+    public long getPoints() {
+        return points;
+    }
+
+    public void setPoints(long points) {
+        this.points = points;
     }
 
     public String getName() {

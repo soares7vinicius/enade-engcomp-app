@@ -39,6 +39,7 @@ import br.com.pdm.enade_engcomp_app.activities.recyclerview.TrainningAdapter;
 import br.com.pdm.enade_engcomp_app.activities.SimulatedActivity;
 import br.com.pdm.enade_engcomp_app.model.Category;
 import br.com.pdm.enade_engcomp_app.model.Question;
+import br.com.pdm.enade_engcomp_app.model.Test;
 
 /**
  * A simple {@link Fragment} subclass.
