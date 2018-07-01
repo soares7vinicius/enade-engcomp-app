@@ -43,6 +43,5 @@ public class TrainningViewHolder extends RecyclerView.ViewHolder implements View
         intent.putExtra("IS_TEST", false);
         intent.putExtra("CATEGORY_ID", catId);
         v.getContext().startActivity(intent);
-        Toast.makeText(v.getContext(), "clicou", Toast.LENGTH_LONG).show();
     }
 }

@@ -1,7 +1,9 @@
-package br.com.pdm.enade_engcomp_app;
+package br.com.pdm.enade_engcomp_app.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import br.com.pdm.enade_engcomp_app.R;
 
 public class CorrectedSimulationActivity extends AppCompatActivity {
 
