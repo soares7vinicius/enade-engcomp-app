@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -80,6 +84,13 @@ public class TestFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        getUserTests();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
@@ -119,6 +130,24 @@ public class TestFragment extends Fragment {
     }
 
     public void getUserTests(){
+        CollectionReference testsRef = db.collection("tests");
+        DocumentReference user = db.collection("users").document(fUser.getUid());
+
+        testsRef.whereEqualTo("user", user)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        List<Test> tests = new ArrayList<>();
+                        for(DocumentSnapshot doc : documentSnapshots){
+                            Test t = doc.toObject(Test.class).withId(doc.getId());
+                            tests.add(t);
+                        }
+
+                        //lista de tests pronta aqui
+                        Log.d("tests size",tests.size()+"");
+                    }
+
+                });
     }
 
     private void createTest(Test test){
