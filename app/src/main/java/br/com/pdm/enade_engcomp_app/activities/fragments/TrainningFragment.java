@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +35,7 @@ import java.util.List;
 
 import br.com.pdm.enade_engcomp_app.R;
 import br.com.pdm.enade_engcomp_app.activities.LoginActivity;
+import br.com.pdm.enade_engcomp_app.activities.recyclerview.TrainningAdapter;
 import br.com.pdm.enade_engcomp_app.activities.SimulatedActivity;
 import br.com.pdm.enade_engcomp_app.model.Category;
 import br.com.pdm.enade_engcomp_app.model.Question;
@@ -44,6 +47,8 @@ public class TrainningFragment extends Fragment {
 
     private FirebaseFirestore db;
     private CollectionReference categoriesReference;
+    private RecyclerView recyclerView;
+    private TrainningAdapter trainningAdapter;
     private List<Category> categories;
 
     public TrainningFragment() {
@@ -53,10 +58,6 @@ public class TrainningFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        db = FirebaseFirestore.getInstance();
-        categoriesReference = db.collection("categories");
-        getCategories();
     }
 
     @Override
@@ -64,18 +65,20 @@ public class TrainningFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trainning, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_trainning, container, false);
+        //Implementação do RecyclerView
+        this.recyclerView = fragmentView.findViewById(R.id.rv_categories_list);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(fragmentView.getContext());
+        this.recyclerView.setLayoutManager(layoutManager);
+        this.recyclerView.setHasFixedSize(true);
+
+        db = FirebaseFirestore.getInstance();
+        categoriesReference = db.collection("categories");
+        getCategories();
+        return fragmentView;
     }
 
-    public void onClickNewTraining(View view){
-
-        //getViewById do item q clicou
-        String catId = "id da categoria"; //nao esquecer
-        Intent intent = new Intent(getContext(), SimulatedActivity.class);
-        intent.putExtra("IS_TEST", false);
-        intent.putExtra("CATEGORY_ID", catId);
-        startActivity(intent);
-    }
 
     private void getCategories(){
         categoriesReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -105,6 +108,8 @@ public class TrainningFragment extends Fragment {
 
         this.categories = categories;
         // preencher a activity com as categorias aqui
+        this.trainningAdapter = new TrainningAdapter(categories);
+        this.recyclerView.setAdapter(this.trainningAdapter);
     }
 
 }
