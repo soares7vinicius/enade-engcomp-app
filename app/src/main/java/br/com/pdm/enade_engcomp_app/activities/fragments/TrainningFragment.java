@@ -1,6 +1,7 @@
 package br.com.pdm.enade_engcomp_app.activities.fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,7 @@ import java.util.List;
 
 import br.com.pdm.enade_engcomp_app.R;
 import br.com.pdm.enade_engcomp_app.activities.LoginActivity;
+import br.com.pdm.enade_engcomp_app.activities.SimulatedActivity;
 import br.com.pdm.enade_engcomp_app.model.Category;
 
 /**
@@ -39,6 +41,7 @@ public class TrainningFragment extends Fragment {
 
     private FirebaseFirestore db;
     private CollectionReference categoriesReference;
+    private List<Category> categories;
 
     public TrainningFragment() {
         // Required empty public constructor
@@ -59,6 +62,16 @@ public class TrainningFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trainning, container, false);
+    }
+
+    public void onClickNewTraining(View view){
+
+        //getViewById do item q clicou
+        String catId = "id da categoria"; //nao esquecer
+        Intent intent = new Intent(getContext(), SimulatedActivity.class);
+        intent.putExtra("IS_TEST", false);
+        intent.putExtra("CATEGORY_ID", catId);
+        startActivity(intent);
     }
 
     private void getCategories(){
@@ -87,6 +100,7 @@ public class TrainningFragment extends Fragment {
         Log.d("categories size", categories.size()+"");
         Log.d("category 0", categories.get(0).getId()+ " " + categories.get(0).getName());
 
+        this.categories = categories;
         // preencher a activity com as categorias aqui
     }
 

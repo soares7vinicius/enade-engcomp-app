@@ -1,57 +1,43 @@
 package br.com.pdm.enade_engcomp_app.model;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.List;
 
 /**
  * Created by marco on 31/05/2018.
  */
 
-public class Test {
-    private long id;
-    private int questions_qtt;
-    private int correct_qtt;
-    private int points;
+public class Test extends Model {
+    @Exclude
+    private final int questions_qtt = 10;
+
+    private int correct_qtt = 0;
+    private int points = 0;
     List<Question> questions;
     User user;
 
-    public Test(int questions_qtt, int correct_qtt, int points, User user) {
-        this.questions_qtt = questions_qtt;
+    public Test(){}
+
+    public Test(User user){
+        this.user = user;
+    }
+
+    public Test(int correct_qtt, int points, User user) {
         this.correct_qtt = correct_qtt;
         this.points = points;
         this.user = user;
     }
 
-    public Test(int questions_qtt, int correct_qtt, int points, List<Question> questions, User user) {
-        this.questions_qtt = questions_qtt;
-        this.correct_qtt = correct_qtt;
-        this.points = points;
-        this.questions = questions;
-        this.user = user;
-    }
-
-    public Test(long id, int questions_qtt, int correct_qtt, int points, List<Question> questions, User user) {
-        this.id = id;
-        this.questions_qtt = questions_qtt;
+    public Test(int correct_qtt, int points, List<Question> questions, User user) {
         this.correct_qtt = correct_qtt;
         this.points = points;
         this.questions = questions;
         this.user = user;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public int getQuestions_qtt() {
         return questions_qtt;
-    }
-
-    public void setQuestions_qtt(int questions_qtt) {
-        this.questions_qtt = questions_qtt;
     }
 
     public int getCorrect_qtt() {

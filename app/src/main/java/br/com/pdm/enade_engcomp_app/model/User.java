@@ -4,28 +4,16 @@ package br.com.pdm.enade_engcomp_app.model;
  * Created by marco on 31/05/2018.
  */
 
-public class User {
-    private String id;
+public class User extends Model{
     private String name;
-    private String email;
+    private String photo;
 
-    public User(String name, String email) {
+    public User() {
+    }
+
+    public User(String name, String photo) {
         this.name = name;
-        this.email = email;
-    }
-
-    public User(String id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.photo = photo;
     }
 
     public String getName() {
@@ -36,11 +24,8 @@ public class User {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getPhoto() { return photo; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public void setPhoto(String photo) { this.photo = photo; }
 }
+
