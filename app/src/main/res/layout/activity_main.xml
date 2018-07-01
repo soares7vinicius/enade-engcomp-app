@@ -7,6 +7,8 @@
     android:orientation="vertical"
     tools:context="br.com.pdm.enade_engcomp_app.activities.MainActivity">
 
+    <include layout="@layout/toolbar" />
+
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"

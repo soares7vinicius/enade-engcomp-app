@@ -7,6 +7,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+
 import br.com.pdm.enade_engcomp_app.R;
 import java.util.ArrayList;
 
@@ -14,10 +16,16 @@ import br.com.pdm.enade_engcomp_app.activities.fragments.TestFragment;
 import br.com.pdm.enade_engcomp_app.activities.fragments.TrainningFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
