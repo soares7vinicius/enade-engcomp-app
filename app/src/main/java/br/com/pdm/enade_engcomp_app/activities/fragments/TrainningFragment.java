@@ -19,7 +19,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -33,6 +35,7 @@ import br.com.pdm.enade_engcomp_app.R;
 import br.com.pdm.enade_engcomp_app.activities.LoginActivity;
 import br.com.pdm.enade_engcomp_app.activities.SimulatedActivity;
 import br.com.pdm.enade_engcomp_app.model.Category;
+import br.com.pdm.enade_engcomp_app.model.Question;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,5 +1,7 @@
 package br.com.pdm.enade_engcomp_app.model;
 
+import com.google.firebase.firestore.DocumentReference;
+
 /**
  * Created by marco on 31/05/2018.
  */
@@ -16,13 +18,14 @@ public class Question extends Model {
     private String alt_d;
     private String alt_e;
     private String alt_correct;
-    private Category category;
+
+    private DocumentReference category;
 
     public Question(){}
 
     public Question(String description_1, String description_2, String image, String reference,
                     String year, String alt_a, String alt_b, String alt_c, String alt_d,
-                    String alt_e, String alt_correct, Category category) {
+                    String alt_e, String alt_correct, DocumentReference category) {
         this.description_1 = description_1;
         this.description_2 = description_2;
         this.image = image;
@@ -125,11 +128,11 @@ public class Question extends Model {
         this.alt_correct = alt_correct;
     }
 
-    public Category getCategory() {
+    public DocumentReference getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(DocumentReference category) {
         this.category = category;
     }
 }

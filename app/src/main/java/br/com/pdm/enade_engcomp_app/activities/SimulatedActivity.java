@@ -76,21 +76,25 @@ public class SimulatedActivity extends AppCompatActivity {
         }
     }
 
-    private void startTraining(String catId){
-        CollectionReference questionsRef = db.collection("questions");
-        questionsRef.whereEqualTo("category", "categories/"+catId).limit(10)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                List<Question> questions = new ArrayList<>();
-                for(DocumentSnapshot doc : documentSnapshots){
-                    Question q = doc.toObject(Question.class).withId(doc.getId());
-                    questions.add(q);
-                }
 
-                //lista de questoes pronta aqui
-            }
-        });
+    private void startTraining(String catId){
+        DocumentReference category = db.collection("categories").document(catId);
+        CollectionReference questionsRef = db.collection("questions");
+
+        questionsRef.whereEqualTo("category", category).limit(10)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        List<Question> questions = new ArrayList<>();
+                        for(DocumentSnapshot doc : documentSnapshots){
+                            Question q = doc.toObject(Question.class).withId(doc.getId());
+                            questions.add(q);
+                        }
+
+                        //lista de questoes pronta aqui
+                        Log.d("train size",questions.size()+"");
+                    }
+                });
     }
 
     private void startTest(String testId){
