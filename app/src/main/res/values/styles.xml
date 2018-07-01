@@ -9,4 +9,8 @@
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
     </style>
 
+    <style name="RaisedButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTint">@color/secondaryColor</item>
+    </style>
+
 </resources>

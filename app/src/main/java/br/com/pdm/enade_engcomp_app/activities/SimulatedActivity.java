@@ -5,6 +5,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -16,6 +18,8 @@ public class SimulatedActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private Toolbar toolbar;
+
+    private RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,21 @@ public class SimulatedActivity extends AppCompatActivity {
             }
         };
 
+        /*radioGroup = (RadioGroup) findViewById(R.id.radio_group_simulated);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+                    case R.id.option1: {
+                        Toast.makeText(SimulatedActivity.this, "Opção 1",Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        */
+
 
     }
+
+
 }
