@@ -66,7 +66,11 @@ public class TrainningFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
-                    List<Category> categories = task.getResult().toObjects(Category.class);
+                    List<Category> categories = new ArrayList<>();
+                    for(DocumentSnapshot doc : task.getResult()){
+                        Category cat = doc.toObject(Category.class).withId(doc.getId());
+                        categories.add(cat);
+                    }
                     inflateCategories(categories);
                 }
             }

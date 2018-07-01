@@ -1,30 +1,20 @@
 package br.com.pdm.enade_engcomp_app.model;
 
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 /**
  * Created by marco on 31/05/2018.
  */
 
-public class Category {
-    private String id;
+public class Category extends Model{
+
     private String name;
 
     public Category(){}
 
     public Category(String name){
         this.name = name;
-    }
-
-    public Category(String id, String name){
-        this.id = id;
-        this.name = name;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {
