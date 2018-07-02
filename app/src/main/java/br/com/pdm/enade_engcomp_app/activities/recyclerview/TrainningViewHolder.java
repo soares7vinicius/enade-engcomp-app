@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,9 @@ public class TrainningViewHolder extends RecyclerView.ViewHolder implements View
         this.category = category;
         TextView categoryName = (TextView) this.trainningCard.getChildAt(0).findViewById(R.id.categoryName);
         categoryName.setText(this.category.getName());
+        int t = R.id.iconTrainning;
+        ImageView iconCategory = (ImageView)this.trainningCard.getChildAt(0).findViewById(t);
+        iconCategory.setImageResource(R.mipmap.ic_launcher);
     }
 
 

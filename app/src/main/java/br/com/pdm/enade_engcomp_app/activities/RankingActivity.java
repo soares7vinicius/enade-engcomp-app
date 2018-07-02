@@ -5,7 +5,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -36,14 +41,11 @@ public class RankingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ranking);
 
         //Implementação do RecyclerView
-        this.recyclerView = findViewById(R.id.rv_categories_list);
+        this.recyclerView = findViewById(R.id.rv_ranking_list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerView.setHasFixedSize(true);
-
-        /*IMPLEMENTAR FUNÇÃO QUE RECUCUPERA UMA LISTA DE TESTES E COMPLETAR O RECYCLER VIEW NELA
-        * IGUAL O IMPLEMENTADO NO TRAININGFRAGMENT*/
 
         db = FirebaseFirestore.getInstance();
         getUsersOrderByPoints();
@@ -61,12 +63,28 @@ public class RankingActivity extends AppCompatActivity {
                             User u = doc.toObject(User.class).withId(doc.getId());
                             users.add(u);
                         }
-
-                        // lista de usuarios aqui
-                        Log.d("users size", users.size()+"");
-                        Log.d("user 0", users.get(0).getName());
-
+                        setFirstPlace(users.get(0));
+                        users.remove(0);
+                        rankingAdapter = new RankingAdapter(users);
+                        recyclerView.setAdapter(rankingAdapter);
                     }
                 });
+    }
+
+    private void setFirstPlace(User user){
+        TextView nameFirstPlace = (TextView) findViewById(R.id.nameFirstPlace);
+        TextView pointsFirstPlace = (TextView) findViewById(R.id.pointsFirstPlace);
+        ImageView imgFirstPlace = (ImageView) findViewById(R.id.imgFirstPlace);
+
+        String image = user.getPhoto();
+        nameFirstPlace.setText(user.getName());
+        pointsFirstPlace.setText(user.getPoints() + " pontos");
+
+        // Create glide request manager
+        RequestManager requestManager = Glide.with(this);
+        // Create request builder and load image.
+        RequestBuilder requestBuilder = requestManager.load(image);
+        // Show image into target imageview.
+        requestBuilder.into(imgFirstPlace);
     }
 }

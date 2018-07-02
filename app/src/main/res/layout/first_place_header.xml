@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/trainningCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        >
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="RANKING"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:elevation="12dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                app:cardCornerRadius="45dp"
+                android:layout_margin="10dp">
+
+                <ImageView
+                    android:id="@+id/imgFirstPlace"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="visible" />
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_place"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium" />
+
+            <TextView
+                android:id="@+id/pointsFirstPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium" />
+
+            <TextView
+                android:id="@+id/nameFirstPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textAppearance="@android:style/TextAppearance.Holo.Medium" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
