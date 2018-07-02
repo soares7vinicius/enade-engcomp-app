@@ -42,8 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="80% (22 pontos)"
-                android:layout_marginTop="24dp"
-                android:textAlignment="viewEnd"
+                android:textAlignment="textEnd"
+                android:layout_gravity="center_vertical"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium" />
 
         </LinearLayout>
