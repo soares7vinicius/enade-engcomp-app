@@ -80,8 +80,7 @@ public class SimulatedActivity extends AppCompatActivity {
             String testID = getIntent().getStringExtra("TEST_ID");
             startTest(testID);
         }else{
-            //String categoryID = getIntent().getStringExtra("CATEGORY_ID");
-            String categoryID = "BPv0Z1XUzt73JtPVwIj8";
+            String categoryID = getIntent().getStringExtra("CATEGORY_ID");
             startTraining(categoryID);
         }
     }
@@ -111,6 +110,7 @@ public class SimulatedActivity extends AppCompatActivity {
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                 Test test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
 
+                //TODO: converter a lista de referências de questões em objetos e adicionar em questions
 
                 //objeto test disponivel aqui
                 Log.d("test id", test.getId()+"");
@@ -239,8 +239,9 @@ public class SimulatedActivity extends AppCompatActivity {
             if(next){
                 popularSimulatedView(countQuestion, questions);
             } else if(finish){
+                //TODO: salvar o teste no banco
+
                 Intent intent = new Intent(this, CorrectedSimulationActivity.class);
-                //intent.putExtra("TOTAL_QUESTIONS", questions);
                 intent.putExtra("TOTAL_QUESTIONS", questions.size());
                 intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
                 intent.putExtra("QTT_CORRECTS", qtt_corrects);
