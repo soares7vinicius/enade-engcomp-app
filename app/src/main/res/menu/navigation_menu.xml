@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/nav_account"
-        android:title="Minha Conta" />
+    <item
+        android:id="@+id/menu_ranking"
+        android:enabled="true"
+        android:icon="@drawable/ic_stars_black_24dp"
+        android:title="@string/ranking_drawer" />
 
-    <item android:id="@+id/nav_ranking"
-    android:title="Ranking" />
+    <item
+        android:id="@+id/menu_about"
+        android:enabled="true"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/about_drawer" />
 
-    <item android:id="@+id/nav_about"
-    android:title="Sobre" />
-
-    <item android:id="@+id/nav_logout"
-    android:title="Logout" />
+    <item
+        android:id="@+id/menu_logout"
+        android:enabled="true"
+        android:icon="@drawable/ic_exit_to_app_black_24dp"
+        android:title="@string/logout_drawer"/>
 </menu>
