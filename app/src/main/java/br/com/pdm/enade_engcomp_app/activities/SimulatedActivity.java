@@ -91,8 +91,8 @@ public class SimulatedActivity extends AppCompatActivity {
             String testID = getIntent().getStringExtra("TEST_ID");
             startTest(testID);
         }else{
-            //String categoryID = getIntent().getStringExtra("CATEGORY_ID");
-            String categoryID = "BPv0Z1XUzt73JtPVwIj8";
+            String categoryID = getIntent().getStringExtra("CATEGORY_ID");
+            //String categoryID = "BPv0Z1XUzt73JtPVwIj8";
             startTraining(categoryID);
         }
     }
