@@ -16,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -46,7 +49,7 @@ public class SimulatedActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RadioGroup radioGroup;
 
-    private List<Question> questions = new ArrayList<Question>();
+    private List<Question> questions;
     private List<Boolean> correct_questions = new ArrayList<Boolean>();
     private int countQuestion = 0;
     private int qtt_corrects = 0;
@@ -163,16 +166,25 @@ public class SimulatedActivity extends AppCompatActivity {
         TextView question_number = (TextView) findViewById(R.id.question_number);
         question_number.setText("Questão " + (countQuestion+1));
 
-        if(description_1 != "" || description_1 != null){
+        if(description_1 != "" && description_1 != null){
+            description_1 = description_1.replaceAll("\\\\n", "\n");
             ((TextView) findViewById(R.id.question_description_1)).setText(description_1);
         }
 
-        if(description_2 != "" || description_2 != null){
+        if(description_2 != "" && description_2 != null){
+            description_2 = description_2.replaceAll("\\\\n", "\n");
             ((TextView) findViewById(R.id.question_description_2)).setText(description_2);
         }
 
-        if(image != "" || image != null){
-            ((ImageView) findViewById(R.id.question_image)).setImageURI(Uri.parse(image));
+        if(image != "" && image != null){
+            ImageView imageView = (ImageView) findViewById(R.id.question_image);
+
+            // Create glide request manager
+            RequestManager requestManager = Glide.with(this);
+            // Create request builder and load image.
+            RequestBuilder requestBuilder = requestManager.load(image);
+            // Show image into target imageview.
+            requestBuilder.into(imageView);
         }
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group_alternatives);
@@ -259,8 +271,9 @@ public class SimulatedActivity extends AppCompatActivity {
                 popularSimulatedView(countQuestion, questions);
             } else if(finish){
                 Intent intent = new Intent(this, CorrectedSimulationActivity.class);
-                //intent.putExtra("QUESTIONS", (ArrayList<Question>) questions);
-                //intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
+                //intent.putExtra("TOTAL_QUESTIONS", questions);
+                intent.putExtra("TOTAL_QUESTIONS", questions.size());
+                intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
                 intent.putExtra("QTT_CORRECTS", qtt_corrects);
                 startActivity(intent);
             }

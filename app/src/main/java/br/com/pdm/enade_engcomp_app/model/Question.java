@@ -2,6 +2,7 @@ package br.com.pdm.enade_engcomp_app.model;
 
 import com.google.firebase.firestore.DocumentReference;
 
+
 /**
  * Created by marco on 31/05/2018.
  */
@@ -135,4 +136,5 @@ public class Question extends Model {
     public void setCategory(DocumentReference category) {
         this.category = category;
     }
+
 }

@@ -78,6 +78,8 @@ public class TrainningFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         categoriesReference = db.collection("categories");
         getCategories();
+
+
         return fragmentView;
     }
 
