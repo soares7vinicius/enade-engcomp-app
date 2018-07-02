@@ -1,6 +1,7 @@
 package br.com.pdm.enade_engcomp_app.activities.fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -52,6 +53,7 @@ public class TestFragment extends Fragment {
     private RecyclerView recyclerView;
     private TestAdapter testAdapter;
     private List<Test> tests;
+    private ProgressDialog progressDialog;
 
     public TestFragment() {
         // Required empty public constructor
@@ -81,6 +83,10 @@ public class TestFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         fUser = mAuth.getCurrentUser();
+
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setTitle(getString(R.string.hold_on));
     }
 
     @Override
@@ -99,6 +105,8 @@ public class TestFragment extends Fragment {
         btnAddTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+
+                progressDialog.show();
 
                 DocumentReference user = db.collection("users").document(fUser.getUid());
                 final Test test = new Test(user);
@@ -157,6 +165,9 @@ public class TestFragment extends Fragment {
                 Intent intent = new Intent(getContext(), SimulatedActivity.class);
                 intent.putExtra("IS_TEST", true);
                 intent.putExtra("TEST_ID", documentReference.getId());
+
+                progressDialog.dismiss();
+
                 startActivity(intent);
             }
         }).addOnFailureListener(new OnFailureListener() {
