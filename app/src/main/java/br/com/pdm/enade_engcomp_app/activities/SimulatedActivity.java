@@ -92,7 +92,6 @@ public class SimulatedActivity extends AppCompatActivity {
             startTest(testID);
         }else{
             String categoryID = getIntent().getStringExtra("CATEGORY_ID");
-            //String categoryID = "BPv0Z1XUzt73JtPVwIj8";
             startTraining(categoryID);
         }
     }
@@ -270,6 +269,8 @@ public class SimulatedActivity extends AppCompatActivity {
             if(next){
                 popularSimulatedView(countQuestion, questions);
             } else if(finish){
+                //TODO: salvar o teste no banco
+
                 Intent intent = new Intent(this, CorrectedSimulationActivity.class);
                 //intent.putExtra("TOTAL_QUESTIONS", questions);
                 intent.putExtra("TOTAL_QUESTIONS", questions.size());
