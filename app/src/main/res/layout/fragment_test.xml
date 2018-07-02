@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,7 +23,9 @@
         android:clickable="true"
         android:foreground="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_add_black_24dp"
-        android:tint="@color/white" />
+        android:tint="@color/white"
+        app:backgroundTint="@color/primaryDarkColor"
+        app:elevation="5dp" />
 
 
 </FrameLayout>

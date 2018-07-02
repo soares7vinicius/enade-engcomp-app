@@ -1,5 +1,6 @@
 package br.com.pdm.enade_engcomp_app.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.pdm.enade_engcomp_app.R;
+import br.com.pdm.enade_engcomp_app.model.Model;
 import br.com.pdm.enade_engcomp_app.model.Question;
 import br.com.pdm.enade_engcomp_app.model.Test;
 
@@ -50,6 +55,8 @@ public class SimulatedActivity extends AppCompatActivity {
     private Boolean next;
     private Boolean finish;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +65,10 @@ public class SimulatedActivity extends AppCompatActivity {
         //ADD TOOLBAR
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setTitle(getString(R.string.hold_on));
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -101,17 +112,37 @@ public class SimulatedActivity extends AppCompatActivity {
                 });
     }
 
-    private void startTest(String testId){
+    private void startTest(final String testId){
+        progressDialog.show();
+
         DocumentReference testRef = db.collection("tests").document(testId);
         testRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                Test test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
+            public void onEvent(final DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                final Test test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
 
+                CollectionReference questionsRef = db.collection("questions");
+                questionsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot documentSnapshots) {
 
-                //objeto test disponivel aqui
-                Log.d("test id", test.getId()+"");
-                Log.d("test questions size", test.getQuestions().size()+"");
+                        List<Question> questions = new ArrayList<>();
+                        Log.d("questions snap size", documentSnapshots.size()+"");
+                        for(DocumentSnapshot doc : documentSnapshots){
+                            Question q = doc.toObject(Question.class).withId(doc.getId());
+                            if(test.getQuestions().contains(q)){
+                                Log.d("questions equals", "true");
+                                questions.add(q);
+                            }
+                        }
+                        progressDialog.dismiss();
+
+                        //test e questions aqui !!!!!!! aleluia irmao
+                        Log.d("test", test.toString());
+                        Log.d("questions size", questions.size()+"");
+                    }
+                });
+
             }
         });
     }
