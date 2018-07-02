@@ -56,7 +56,7 @@ public class TestFragment extends Fragment {
     private ProgressDialog progressDialog;
 
     public TestFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -71,9 +71,7 @@ public class TestFragment extends Fragment {
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerView.setHasFixedSize(true);
 
-        /*IMPLEMENTAR FUNÇÃO QUE RECUCUPERA UMA LISTA DE TESTES E COMPLETAR O RECYCLER VIEW NELA
-        * IGUAL O IMPLEMENTADO NO TRAININGFRAGMENT*/
-        return inflater.inflate(R.layout.fragment_test, container, false);
+        return fragmentView;
     }
 
     @Override
@@ -92,7 +90,6 @@ public class TestFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         getUserTests();
     }
 
@@ -145,11 +142,13 @@ public class TestFragment extends Fragment {
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        List<Test> tests = new ArrayList<>();
+                        tests = new ArrayList<>();
                         for(DocumentSnapshot doc : documentSnapshots){
                             Test t = doc.toObject(Test.class).withId(doc.getId());
                             tests.add(t);
                         }
+                        testAdapter = new TestAdapter(tests);
+                        recyclerView.setAdapter(testAdapter);
 
                         //lista de tests pronta aqui
                         Log.d("tests size",tests.size()+"");

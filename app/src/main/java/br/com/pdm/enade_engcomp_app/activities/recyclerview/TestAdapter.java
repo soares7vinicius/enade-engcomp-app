@@ -17,7 +17,6 @@ import br.com.pdm.enade_engcomp_app.model.Test;
 
 public class TestAdapter extends RecyclerView.Adapter<TestViewHolder>{
     private List<Test> tests;
-
     public TestAdapter(List<Test> tests){
         this.tests = tests;
     }
@@ -38,7 +37,7 @@ public class TestAdapter extends RecyclerView.Adapter<TestViewHolder>{
 
     @Override
     public void onBindViewHolder(TestViewHolder holder, int position) {
-        holder.bind(this.tests.get(position));
+        holder.bind(this.tests.get(position), position+1);
     }
 
     @Override

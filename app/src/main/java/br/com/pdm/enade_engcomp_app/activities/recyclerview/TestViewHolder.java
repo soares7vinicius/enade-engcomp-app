@@ -23,11 +23,11 @@ public class TestViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.testCard.setOnClickListener(this);
     }
 
-    public void bind(Test test){
+    public void bind(Test test, int position){
         this.test = test;
         TextView testName = (TextView) this.testCard.getChildAt(0).findViewById(R.id.testName);
         TextView testResult = (TextView) this.testCard.getChildAt(0).findViewById(R.id.testResult);
-        testName.setText("Simulado " + this.test.getId());
+        testName.setText("Simulado " + position);
         double pontPercent = (this.test.getCorrect_qtt()/this.test.getQuestions_qtt())/100.0;
         testResult.setText(pontPercent + "% - " + this.test.getPoints());
     }
@@ -35,6 +35,6 @@ public class TestViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(v.getContext(), "clicou", Toast.LENGTH_LONG).show();
+        Toast.makeText(v.getContext(), "CHAMAR TELA DE CORREÇÃO", Toast.LENGTH_LONG).show();
     }
 }
