@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.pdm.enade_engcomp_app">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".EnadeECompApplication"
         android:allowBackup="true"
@@ -23,9 +25,8 @@
         <activity android:name=".activities.SimulatedActivity" />
         <activity android:name=".activities.MainActivity" />
         <activity android:name=".activities.SimulatedCorrectionActivity" />
-        <activity android:name=".activities.RankingActivity"></activity>
-        <activity android:name=".activities.SimulatedCorrectionActivity" />
-        <activity android:name=".activities.CorrectedSimulationActivity"></activity>
+        <activity android:name=".activities.RankingActivity"/>
+        <activity android:name=".activities.CorrectedSimulationActivity"/>
     </application>
 
 </manifest>
