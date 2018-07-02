@@ -38,6 +38,7 @@ import br.com.pdm.enade_engcomp_app.R;
 import br.com.pdm.enade_engcomp_app.model.Model;
 import br.com.pdm.enade_engcomp_app.model.Question;
 import br.com.pdm.enade_engcomp_app.model.Test;
+import br.com.pdm.enade_engcomp_app.model.User;
 
 public class SimulatedActivity extends AppCompatActivity {
 
@@ -53,7 +54,13 @@ public class SimulatedActivity extends AppCompatActivity {
     private List<Boolean> correct_questions = new ArrayList<Boolean>();
     private int countQuestion = 0;
     private int qtt_corrects = 0;
+
     private Boolean isTest;
+    private Test test;
+    private String testID;
+
+    private User user;
+    private String userID;
 
     private Boolean next;
     private Boolean finish;
@@ -88,7 +95,7 @@ public class SimulatedActivity extends AppCompatActivity {
         isTest = getIntent().getBooleanExtra("IS_TEST", false);
 
         if(isTest){
-            String testID = getIntent().getStringExtra("TEST_ID");
+            testID = getIntent().getStringExtra("TEST_ID");
             startTest(testID);
         }else{
             String categoryID = getIntent().getStringExtra("CATEGORY_ID");
@@ -121,27 +128,33 @@ public class SimulatedActivity extends AppCompatActivity {
         testRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(final DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                final Test test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
+                test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
 
                 CollectionReference questionsRef = db.collection("questions");
                 questionsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot documentSnapshots) {
 
-                        List<Question> questions = new ArrayList<>();
-                        Log.d("questions snap size", documentSnapshots.size()+"");
+                        questions = new ArrayList<>();
+
                         for(DocumentSnapshot doc : documentSnapshots){
                             Question q = doc.toObject(Question.class).withId(doc.getId());
                             if(test.getQuestions().contains(q)){
-                                Log.d("questions equals", "true");
                                 questions.add(q);
                             }
                         }
-                        progressDialog.dismiss();
 
-                        //test e questions aqui !!!!!!! aleluia irmao
-                        Log.d("test", test.toString());
-                        Log.d("questions size", questions.size()+"");
+                        CollectionReference usersRef = db.collection("users");
+                        usersRef.document(test.getUser().getId())
+                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                                        user = documentSnapshot.toObject(User.class).withId(documentSnapshot.getId());
+
+                                        progressDialog.dismiss();
+                                        popularSimulatedView(countQuestion, questions);
+                                    }
+                                });
                     }
                 });
 
@@ -170,20 +183,26 @@ public class SimulatedActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.question_description_1)).setText(description_1);
         }
 
+        TextView question_description_2 = (TextView) findViewById(R.id.question_description_2);
         if(description_2 != "" && description_2 != null){
             description_2 = description_2.replaceAll("\\\\n", "\n");
-            ((TextView) findViewById(R.id.question_description_2)).setText(description_2);
+            question_description_2.setText(description_2);
+        } else {
+            question_description_2.setText("");
         }
 
+        ImageView imageView = (ImageView) findViewById(R.id.question_image);
         if(image != "" && image != null){
-            ImageView imageView = (ImageView) findViewById(R.id.question_image);
-
+            progressDialog.show();
             // Create glide request manager
             RequestManager requestManager = Glide.with(this);
             // Create request builder and load image.
             RequestBuilder requestBuilder = requestManager.load(image);
             // Show image into target imageview.
             requestBuilder.into(imageView);
+            progressDialog.dismiss();
+        } else {
+            imageView.setImageResource(0);
         }
 
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radio_group_alternatives);
@@ -269,10 +288,16 @@ public class SimulatedActivity extends AppCompatActivity {
             if(next){
                 popularSimulatedView(countQuestion, questions);
             } else if(finish){
-                //TODO: salvar o teste no banco
+                if(isTest){
+                    test.setCorrect_qtt(qtt_corrects);
+                    test.setPoints(qtt_corrects);
+                    db.collection("tests").document(testID).set(test);
 
+                    userID = user.getId();
+                    user.setPoints((user.getPoints()+qtt_corrects));
+                    db.collection("users").document(userID).set(user);
+                }
                 Intent intent = new Intent(this, CorrectedSimulationActivity.class);
-                //intent.putExtra("TOTAL_QUESTIONS", questions);
                 intent.putExtra("TOTAL_QUESTIONS", questions.size());
                 intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
                 intent.putExtra("QTT_CORRECTS", qtt_corrects);
