@@ -2,6 +2,7 @@ package br.com.pdm.enade_engcomp_app.model;
 
 import android.support.annotation.NonNull;
 
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
@@ -26,5 +27,18 @@ public class Model {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+
+        if(obj.getClass() == DocumentReference.class){
+            DocumentReference dr = (DocumentReference)obj;
+            return this.getId().equals(dr.getId());
+        }else{
+            Model m = (Model)obj;
+            return this.getId().equals(m.getId());
+        }
     }
 }
