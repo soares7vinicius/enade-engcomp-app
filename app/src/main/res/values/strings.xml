@@ -7,6 +7,8 @@
     <string name="logout">Sair</string>
     <string name="test_tab">Simulado</string>
     <string name="trainning_tab">Treino</string>
+    <string name="first_place">1º</string>
+    <string name="ranking">Ranking</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
