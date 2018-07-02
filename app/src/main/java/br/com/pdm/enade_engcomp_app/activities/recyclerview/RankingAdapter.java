@@ -18,9 +18,11 @@ import br.com.pdm.enade_engcomp_app.model.User;
 public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder>{
     private List<User> users;
 
-    public RankingAdapter(List<User> tests){
+    public RankingAdapter(List<User> users){
         this.users = users;
     }
+
+
 
     @Override
     public RankingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -32,13 +34,13 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder>{
         Boolean attachToParent = false;
         View view = inflater.inflate(layoutID, parent, attachToParent);
 
-        RankingViewHolder testVHolder = new RankingViewHolder(view);
-        return testVHolder;
+        RankingViewHolder rankingVHolder = new RankingViewHolder(view);
+        return rankingVHolder;
     }
 
     @Override
     public void onBindViewHolder(RankingViewHolder holder, int position) {
-        holder.bind(this.users.get(position));
+        holder.bind(this.users.get(position), position+1);
     }
 
     @Override
