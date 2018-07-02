@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseStorage storage;
     private StorageReference storageRef;
-    private ProgressDialog progressDialog;
 
     private static final String TAG = "MAIN_ACTIVITY";
 
@@ -63,21 +62,15 @@ public class LoginActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getString(R.string.loading));
-        progressDialog.setTitle(getString(R.string.hold_on));
-
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
-                    progressDialog.show();
                     registerUser();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    progressDialog.dismiss();
-                    startActivity(intent);
                     finish();
+                    startActivity(intent);
                 }
             }
         };

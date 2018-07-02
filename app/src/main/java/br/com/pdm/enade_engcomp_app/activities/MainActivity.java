@@ -1,5 +1,6 @@
 package br.com.pdm.enade_engcomp_app.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -7,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -36,13 +38,13 @@ import br.com.pdm.enade_engcomp_app.activities.fragments.TestFragment;
 import br.com.pdm.enade_engcomp_app.activities.fragments.TrainningFragment;
 import br.com.pdm.enade_engcomp_app.model.User;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
+    private ProgressDialog progressDialog;
 
     private ImageView userImage;
     private TextView userName;
@@ -64,28 +66,32 @@ public class MainActivity extends AppCompatActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null){
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    finish();
                     startActivity(intent);
                 }
             }
         };
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setTitle(getString(R.string.hold_on));
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawerLayout);
-        toggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        navigationView = findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
 
         ViewPager viewPager = (ViewPager)findViewById(R.id.viewPager);
         viewPager.setAdapter(new MyAdapter(getSupportFragmentManager()));
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
-
-        navigationView = findViewById(R.id.navigationView);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -101,30 +107,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Log.d("nav", "inside");
-        Intent intent;
-
-        switch(item.getItemId()){
-            case(R.id.menu_ranking):
-                intent = new Intent(getApplicationContext(), RankingActivity.class);
-                startActivity(intent);
-                break;
-
-            case(R.id.menu_about):
-                intent = new Intent(getApplicationContext(), RankingActivity.class);
-                startActivity(intent);
-                break;
-
-            case(R.id.menu_logout):
-                Log.d("nav logout", "true");
-                mAuth.signOut();
-                break;
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
         }
-        return true;
     }
 
     private void populateDrawbar(){
+        progressDialog.show();
         CollectionReference usersRef = db.collection("users");
         usersRef.document(mAuth.getCurrentUser().getUid())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -141,6 +133,28 @@ public class MainActivity extends AppCompatActivity
                 userPoints.setText(user.getPoints()+"");
             }
         });
+        progressDialog.dismiss();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.menu_ranking:
+                intent = new Intent(getApplicationContext(), RankingActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.menu_about:
+
+                break;
+
+            case R.id.menu_logout:
+                mAuth.signOut();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     private class MyAdapter extends FragmentPagerAdapter {
