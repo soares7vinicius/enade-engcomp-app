@@ -172,6 +172,9 @@ public class TestFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+
+                progressDialog.dismiss();
+
                 Toast.makeText(getContext(), R.string.error_test_create, Toast.LENGTH_SHORT).show();
             }
         });
