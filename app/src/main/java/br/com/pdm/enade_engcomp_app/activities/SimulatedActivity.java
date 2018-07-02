@@ -110,8 +110,6 @@ public class SimulatedActivity extends AppCompatActivity {
             public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
                 Test test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
 
-                //TODO: converter a lista de referências de questões em objetos e adicionar em questions
-
                 //objeto test disponivel aqui
                 Log.d("test id", test.getId()+"");
                 Log.d("test questions size", test.getQuestions().size()+"");
