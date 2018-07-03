@@ -22,7 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import br.com.pdm.enade_engcomp_app.R;
 import br.com.pdm.enade_engcomp_app.model.Question;
 
-public class CorrectionActivity extends AppCompatActivity {
+public class CorrectionQuestionActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -38,7 +38,7 @@ public class CorrectionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_correction);
+        setContentView(R.layout.activity_correction_question);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,7 +53,7 @@ public class CorrectionActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null){
-                    Intent intent = new Intent(CorrectionActivity.this, LoginActivity.class);
+                    Intent intent = new Intent(CorrectionQuestionActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
             }
@@ -97,7 +97,7 @@ public class CorrectionActivity extends AppCompatActivity {
                 if(image != "" && image != null){
                     progressDialog.show();
                     // Create glide request manager
-                    RequestManager requestManager = Glide.with(CorrectionActivity.this);
+                    RequestManager requestManager = Glide.with(CorrectionQuestionActivity.this);
                     // Create request builder and load image.
                     RequestBuilder requestBuilder = requestManager.load(image);
                     // Show image into target imageview.
