@@ -1,12 +1,16 @@
 package br.com.pdm.enade_engcomp_app.activities.recyclerview;
 
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import br.com.pdm.enade_engcomp_app.R;
+import br.com.pdm.enade_engcomp_app.activities.CorrectionActivity;
 import br.com.pdm.enade_engcomp_app.model.Test;
 
 /**
@@ -35,6 +39,12 @@ public class TestViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(v.getContext(), "CHAMAR TELA DE CORREÇÃO", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(v.getContext(), CorrectionActivity.class);
+        intent.putExtra("IS_TEST", true);
+        intent.putExtra("TEST_ID", test.getId());
+        intent.putExtra("TOTAL_QUESTIONS", test.getQuestions().size());
+        intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) test.getCorrect_questions());
+        intent.putExtra("QTT_CORRECTS", test.getCorrect_qtt());
+        v.getContext().startActivity(intent);
     }
 }

@@ -290,11 +290,12 @@ public class SimulatedActivity extends AppCompatActivity {
             if(next){
                 popularSimulatedView(countQuestion, questions);
             } else if(finish){
-                Intent intent = new Intent(this, CorrectedSimulationActivity.class);
+                Intent intent = new Intent(this, CorrectionActivity.class);
                 intent.putExtra("IS_TEST", isTest);
                 if(isTest){
                     test.setCorrect_qtt(qtt_corrects);
                     test.setPoints(qtt_corrects);
+                    test.setCorrect_questions(correct_questions);
                     db.collection("tests").document(testID).set(test);
 
                     userID = user.getId();

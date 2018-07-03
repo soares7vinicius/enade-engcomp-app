@@ -16,7 +16,8 @@ public class Test extends Model {
     private int correct_qtt = 0;
     private int points = 0;
     private List<DocumentReference> questions;
-    private  DocumentReference user;
+    private DocumentReference user;
+    private List<Boolean> correct_questions;
 
     public Test(){}
 
@@ -72,5 +73,13 @@ public class Test extends Model {
 
     public void setQuestions(List<DocumentReference> questions) {
         this.questions = questions;
+    }
+
+    public List<Boolean> getCorrect_questions() {
+        return correct_questions;
+    }
+
+    public void setCorrect_questions(List<Boolean> correct_questions) {
+        this.correct_questions = correct_questions;
     }
 }
