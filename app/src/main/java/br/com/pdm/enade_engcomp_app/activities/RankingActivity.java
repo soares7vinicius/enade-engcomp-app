@@ -1,5 +1,6 @@
 package br.com.pdm.enade_engcomp_app.activities;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,8 @@ public class RankingActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
 
+    private ProgressDialog progressDialog;
+
     private List<User> users = new ArrayList<>();
 
     @Override
@@ -43,6 +46,10 @@ public class RankingActivity extends AppCompatActivity {
         //Implementação do RecyclerView
         this.recyclerView = findViewById(R.id.rv_ranking_list);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.setTitle(getString(R.string.hold_on));
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         this.recyclerView.setLayoutManager(layoutManager);
         this.recyclerView.setHasFixedSize(true);
@@ -52,9 +59,9 @@ public class RankingActivity extends AppCompatActivity {
     }
 
     private void getUsersOrderByPoints(){
-
+        progressDialog.show();
         CollectionReference usersRef = db.collection("users");
-        usersRef.orderBy("points", Query.Direction.DESCENDING)
+        usersRef.orderBy("points", Query.Direction.DESCENDING).limit(50)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -67,8 +74,10 @@ public class RankingActivity extends AppCompatActivity {
                         users.remove(0);
                         rankingAdapter = new RankingAdapter(users);
                         recyclerView.setAdapter(rankingAdapter);
+                        progressDialog.dismiss();
                     }
                 });
+
     }
 
     private void setFirstPlace(User user){

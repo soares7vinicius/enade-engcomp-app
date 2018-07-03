@@ -57,6 +57,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if(getIntent().getExtras() != null
+                && getIntent().getExtras().getBoolean("EXIT", false)){
+            finish();
+        }
+
         buttonLoginGoogle = (Button) findViewById(R.id.buttonLoginGoogle);
 
         storage = FirebaseStorage.getInstance();

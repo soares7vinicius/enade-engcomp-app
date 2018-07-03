@@ -90,7 +90,11 @@ public class TestFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getUserTests();
+
+        if(mAuth.getCurrentUser() != null){
+            getUserTests();
+        }
+
     }
 
     @Override

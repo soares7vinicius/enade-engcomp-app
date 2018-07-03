@@ -27,6 +27,7 @@
         <activity android:name=".activities.CorrectionQuestionActivity" />
         <activity android:name=".activities.RankingActivity"/>
         <activity android:name=".activities.CorrectedSimulationActivity"/>
+        <activity android:name=".activities.AboutActivity"></activity>
     </application>
 
 </manifest>
