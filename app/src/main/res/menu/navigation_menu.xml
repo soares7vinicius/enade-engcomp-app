@@ -2,21 +2,22 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/menu_ranking"
-        android:enabled="true"
-        android:icon="@drawable/ic_add_black_24dp"
-        android:title="@string/ranking_drawer" />
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/menu_ranking"
+            android:icon="@drawable/ic_stars_black_24dp"
+            android:title="@string/ranking_drawer" />
 
-    <item
-        android:id="@+id/menu_about"
-        android:enabled="true"
-        android:icon="@drawable/ic_info_black_24dp"
-        android:title="@string/about_drawer" />
+        <item
+            android:id="@+id/menu_about"
+            android:icon="@drawable/ic_info_black_24dp"
+            android:title="@string/about_drawer" />
 
-    <item
-        android:id="@+id/menu_logout"
-        android:enabled="true"
-        android:icon="@drawable/ic_exit_to_app_black_24dp"
-        android:title="@string/logout_drawer"/>
+        <item
+            android:id="@+id/menu_logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="@string/logout_drawer" />
+
+    </group>
+
 </menu>
