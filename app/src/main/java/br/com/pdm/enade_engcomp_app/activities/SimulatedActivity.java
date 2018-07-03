@@ -55,6 +55,8 @@ public class SimulatedActivity extends AppCompatActivity {
     private int countQuestion = 0;
     private int qtt_corrects = 0;
 
+    private  String categoryID;
+
     private Boolean isTest;
     private Test test;
     private String testID;
@@ -98,7 +100,7 @@ public class SimulatedActivity extends AppCompatActivity {
             testID = getIntent().getStringExtra("TEST_ID");
             startTest(testID);
         }else{
-            String categoryID = getIntent().getStringExtra("CATEGORY_ID");
+            categoryID = getIntent().getStringExtra("CATEGORY_ID");
             startTraining(categoryID);
         }
     }
@@ -121,7 +123,7 @@ public class SimulatedActivity extends AppCompatActivity {
                 });
     }
 
-    private void startTest(final String testId){
+    private void startTest(String testId){
         progressDialog.show();
 
         DocumentReference testRef = db.collection("tests").document(testId);
@@ -288,6 +290,8 @@ public class SimulatedActivity extends AppCompatActivity {
             if(next){
                 popularSimulatedView(countQuestion, questions);
             } else if(finish){
+                Intent intent = new Intent(this, CorrectedSimulationActivity.class);
+
                 if(isTest){
                     test.setCorrect_qtt(qtt_corrects);
                     test.setPoints(qtt_corrects);
@@ -296,11 +300,16 @@ public class SimulatedActivity extends AppCompatActivity {
                     userID = user.getId();
                     user.setPoints((user.getPoints()+qtt_corrects));
                     db.collection("users").document(userID).set(user);
+
+                    intent.putExtra("TEST_ID", testID);
+                } else {
+                    intent.putExtra("CATEGORY_ID", categoryID);
                 }
-                Intent intent = new Intent(this, CorrectedSimulationActivity.class);
+
                 intent.putExtra("TOTAL_QUESTIONS", questions.size());
                 intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
                 intent.putExtra("QTT_CORRECTS", qtt_corrects);
+                finish();
                 startActivity(intent);
             }
 
