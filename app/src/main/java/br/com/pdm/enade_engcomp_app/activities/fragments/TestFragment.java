@@ -106,34 +106,9 @@ public class TestFragment extends Fragment {
         btnAddTest.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-
-                progressDialog.show();
-
-                DocumentReference user = db.collection("users").document(fUser.getUid());
-                final Test test = new Test(user);
-
-                //getting random questions list sized 10
-                db.collection("questions").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            List<DocumentReference> questions = new ArrayList<>();
-                            for(DocumentSnapshot doc : task.getResult()){
-                                questions.add(doc.getReference());
-                            }
-
-                            Collections.shuffle(questions);
-                            questions = questions.subList(0, 10);
-                            test.setQuestions(questions);
-                            createTest(test);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), R.string.error_questions_query, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                Intent intent = new Intent(getContext(), SimulatedActivity.class);
+                intent.putExtra("IS_TEST", true);
+                startActivity(intent);
             }
         });
     }
@@ -160,29 +135,4 @@ public class TestFragment extends Fragment {
 
                 });
     }
-
-    private void createTest(Test test){
-        db.collection("tests").add(test).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference documentReference) {
-                Intent intent = new Intent(getContext(), SimulatedActivity.class);
-                intent.putExtra("IS_TEST", true);
-                intent.putExtra("TEST_ID", documentReference.getId());
-
-                progressDialog.dismiss();
-
-                startActivity(intent);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
-                progressDialog.dismiss();
-
-                Toast.makeText(getContext(), R.string.error_test_create, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
 }

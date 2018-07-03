@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +33,8 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import br.com.pdm.enade_engcomp_app.R;
@@ -39,6 +42,7 @@ import br.com.pdm.enade_engcomp_app.model.Model;
 import br.com.pdm.enade_engcomp_app.model.Question;
 import br.com.pdm.enade_engcomp_app.model.Test;
 import br.com.pdm.enade_engcomp_app.model.User;
+import io.grpc.internal.zzeo;
 
 public class SimulatedActivity extends AppCompatActivity {
 
@@ -51,6 +55,7 @@ public class SimulatedActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
 
     private List<Question> questions;
+    private List<DocumentReference> questionsRef;
     private List<Boolean> correct_questions = new ArrayList<Boolean>();
     private int countQuestion = 0;
     private int qtt_corrects = 0;
@@ -97,8 +102,7 @@ public class SimulatedActivity extends AppCompatActivity {
         isTest = getIntent().getBooleanExtra("IS_TEST", false);
 
         if(isTest){
-            testID = getIntent().getStringExtra("TEST_ID");
-            startTest(testID);
+            startTest();
         }else{
             categoryID = getIntent().getStringExtra("CATEGORY_ID");
             startTraining(categoryID);
@@ -123,43 +127,76 @@ public class SimulatedActivity extends AppCompatActivity {
                 });
     }
 
-    private void startTest(String testId){
+    private void startTest(){
         progressDialog.show();
 
-        DocumentReference testRef = db.collection("tests").document(testId);
-        testRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+        DocumentReference userRef = db.collection("users").document(mAuth.getCurrentUser().getUid());
+        test = new Test(userRef);
+
+        //getting random questions list sized 10
+        db.collection("questions").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onEvent(final DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                test = documentSnapshot.toObject(Test.class).withId(documentSnapshot.getId());
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()){
+                    questionsRef = new ArrayList<>();
+                    questions = new ArrayList<>();
+                    for(DocumentSnapshot doc : task.getResult()) {
+                        questionsRef.add(doc.getReference());
 
-                CollectionReference questionsRef = db.collection("questions");
-                questionsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot documentSnapshots) {
-
-                        questions = new ArrayList<>();
-
-                        for(DocumentSnapshot doc : documentSnapshots){
-                            Question q = doc.toObject(Question.class).withId(doc.getId());
-                            if(test.getQuestions().contains(q)){
-                                questions.add(q);
-                            }
-                        }
-
-                        CollectionReference usersRef = db.collection("users");
-                        usersRef.document(test.getUser().getId())
-                                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
-                                        user = documentSnapshot.toObject(User.class).withId(documentSnapshot.getId());
-
-                                        progressDialog.dismiss();
-                                        popularSimulatedView(countQuestion, questions);
-                                    }
-                                });
+                        Question q = doc.toObject(Question.class).withId(doc.getId());
+                        questions.add(q);
                     }
-                });
 
+                    Collections.shuffle(questionsRef);
+                    questionsRef = questionsRef.subList(0, 10);
+
+                    List<Question> questionsAux = new ArrayList<>(questions);
+                    for(Question q : questionsAux){
+                        if(!questionsRef.contains(q)){
+                            questions.remove(q);
+                        }
+                    }
+                    Collections.sort(questionsRef, new Comparator<DocumentReference>() {
+                        @Override
+                        public int compare(DocumentReference documentReference, DocumentReference t1) {
+                            return documentReference.getId().compareTo(t1.getId());
+                        }
+                    });
+                    Collections.sort(questions, new Comparator<Question>() {
+                        @Override
+                        public int compare(Question question, Question t1) {
+                            return question.getId().compareTo(t1.getId());
+                        }
+                    });
+
+                    /*
+                    Log.d("quest ref size", questionsRef.size()+"");
+                    Log.d("quest size", questions.size()+"");
+
+                    Log.d("quest ref 1st id", questionsRef.get(0).getId());
+                    Log.d("quest 1st id", questions.get(0).getId());
+
+                    Log.d("quest ref last id", questionsRef.get(questionsRef.size()-1).getId());
+                    Log.d("quest last id", questions.get(questions.size()-1).getId());
+                    */
+
+                    CollectionReference usersRef = db.collection("users");
+                    usersRef.document(test.getUser().getId())
+                            .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                @Override
+                                public void onEvent(DocumentSnapshot documentSnapshot, FirebaseFirestoreException e) {
+                                    user = documentSnapshot.toObject(User.class).withId(documentSnapshot.getId());
+
+                                    progressDialog.dismiss();
+                                    popularSimulatedView(countQuestion, SimulatedActivity.this.questions);
+                                }
+                            });
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(SimulatedActivity.this, R.string.error_questions_query, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -290,28 +327,38 @@ public class SimulatedActivity extends AppCompatActivity {
             if(next){
                 popularSimulatedView(countQuestion, questions);
             } else if(finish){
-                Intent intent = new Intent(this, CorrectionActivity.class);
+                final Intent intent = new Intent(this, CorrectionActivity.class);
                 intent.putExtra("IS_TEST", isTest);
                 if(isTest){
                     test.setCorrect_qtt(qtt_corrects);
                     test.setPoints(qtt_corrects);
                     test.setCorrect_questions(correct_questions);
-                    db.collection("tests").document(testID).set(test);
+                    test.setQuestions(questionsRef);
 
-                    userID = user.getId();
-                    user.setPoints((user.getPoints()+qtt_corrects));
-                    db.collection("users").document(userID).set(user);
+                    db.collection("tests").add(test).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            userID = user.getId();
+                            user.setPoints((user.getPoints()+qtt_corrects));
+                            db.collection("users").document(userID).set(user);
 
-                    intent.putExtra("TEST_ID", testID);
+                            intent.putExtra("TEST_ID", documentReference.getId());
+
+                            intent.putExtra("TOTAL_QUESTIONS", questions.size());
+                            intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
+                            intent.putExtra("QTT_CORRECTS", qtt_corrects);
+                            finish();
+                            startActivity(intent);
+                        }
+                    });
                 } else {
                     intent.putExtra("CATEGORY_ID", categoryID);
+                    intent.putExtra("TOTAL_QUESTIONS", questions.size());
+                    intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
+                    intent.putExtra("QTT_CORRECTS", qtt_corrects);
+                    finish();
+                    startActivity(intent);
                 }
-
-                intent.putExtra("TOTAL_QUESTIONS", questions.size());
-                intent.putExtra("CORRECT_QUESTIONS", (ArrayList<Boolean>) correct_questions);
-                intent.putExtra("QTT_CORRECTS", qtt_corrects);
-                finish();
-                startActivity(intent);
             }
 
         } else {
