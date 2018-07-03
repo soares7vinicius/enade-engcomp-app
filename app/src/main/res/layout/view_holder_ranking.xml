@@ -22,10 +22,19 @@
             android:orientation="horizontal"
             android:padding="16dp">
 
+            <TextView
+                android:id="@+id/userPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textAppearance="@android:style/TextAppearance.Holo.Large"
+                android:maxWidth="200dp"
+                android:layout_marginRight="10dp"/>
+
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgUser"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:gravity="center"
                 android:layout_marginRight="16dp"/>
 
@@ -33,16 +42,14 @@
                 android:id="@+id/userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User X"
                 android:layout_gravity="center_vertical"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"
-                android:maxWidth="200dp"/>
+                android:maxWidth="125dp"/>
 
             <TextView
                 android:id="@+id/userResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="80% (22 pontos)"
                 android:textAlignment="textEnd"
                 android:layout_gravity="center_vertical"
                 android:textAppearance="@android:style/TextAppearance.Holo.Medium"

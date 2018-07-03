@@ -32,8 +32,7 @@ public class TestViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         TextView testName = (TextView) this.testCard.getChildAt(0).findViewById(R.id.testName);
         TextView testResult = (TextView) this.testCard.getChildAt(0).findViewById(R.id.testResult);
         testName.setText("Simulado " + position);
-        double pontPercent = (this.test.getCorrect_qtt()/this.test.getQuestions_qtt())/100.0;
-        testResult.setText(pontPercent + "% - " + this.test.getPoints());
+        testResult.setText(this.test.getCorrect_qtt() + "/" + this.test.getQuestions_qtt());
     }
 
 

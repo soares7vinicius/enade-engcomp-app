@@ -8,6 +8,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.RequestManager;
+
 import org.w3c.dom.Text;
 
 import br.com.pdm.enade_engcomp_app.R;
@@ -32,9 +36,16 @@ public class TrainningViewHolder extends RecyclerView.ViewHolder implements View
         this.category = category;
         TextView categoryName = (TextView) this.trainningCard.getChildAt(0).findViewById(R.id.categoryName);
         categoryName.setText(this.category.getName());
-        int t = R.id.iconTrainning;
-        ImageView iconCategory = (ImageView)this.trainningCard.getChildAt(0).findViewById(t);
-        iconCategory.setImageResource(R.mipmap.ic_launcher);
+
+        String icon = category.getIcon();
+        ImageView iconCategory = (ImageView)this.trainningCard.getChildAt(0).findViewById(R.id.iconTrainning);
+
+        // Create glide request manager
+        RequestManager requestManager = Glide.with(this.trainningCard);
+        // Create request builder and load image.
+        RequestBuilder requestBuilder = requestManager.load(icon);
+        // Show image into target imageview.
+        requestBuilder.into(iconCategory);
     }
 
 

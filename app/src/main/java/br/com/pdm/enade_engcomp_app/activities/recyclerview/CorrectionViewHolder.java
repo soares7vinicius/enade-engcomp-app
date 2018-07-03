@@ -38,7 +38,7 @@ public class CorrectionViewHolder extends RecyclerView.ViewHolder implements Vie
         if(correct){
             imgCorrect.setImageResource(R.drawable.ic_check_circle_green_36dp);
         }else{
-            imgCorrect.setImageResource(R.drawable.ic_highlight_off_green_36dp);
+            imgCorrect.setImageResource(R.drawable.ic_highlight_off_red_36dp);
         }
     }
 

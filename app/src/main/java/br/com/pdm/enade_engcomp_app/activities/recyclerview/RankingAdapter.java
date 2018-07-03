@@ -17,9 +17,11 @@ import br.com.pdm.enade_engcomp_app.model.User;
 
 public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder>{
     private List<User> users;
+    private String currentUserID;
 
-    public RankingAdapter(List<User> users){
+    public RankingAdapter(List<User> users, String currentUserID){
         this.users = users;
+        this.currentUserID = currentUserID;
     }
 
 
@@ -40,7 +42,7 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingViewHolder>{
 
     @Override
     public void onBindViewHolder(RankingViewHolder holder, int position) {
-        holder.bind(this.users.get(position), position+1);
+        holder.bind(this.users.get(position), this.currentUserID, position+1);
     }
 
     @Override

@@ -27,8 +27,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:gravity="center"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_highlight_off_green_36dp"/>
+                android:layout_marginRight="16dp" />
 
             <TextView
                 android:id="@+id/questionCorrection"

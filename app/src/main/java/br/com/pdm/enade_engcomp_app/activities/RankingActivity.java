@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.RequestManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -35,10 +36,11 @@ public class RankingActivity extends AppCompatActivity {
     private RankingAdapter rankingAdapter;
 
     private FirebaseFirestore db;
-
+    private FirebaseAuth mAuth;
     private ProgressDialog progressDialog;
 
     private List<User> users = new ArrayList<>();
+    private String currentUserID;
 
     private Toolbar toolbar;
 
@@ -49,6 +51,11 @@ public class RankingActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null) {
+            currentUserID = mAuth.getCurrentUser().getUid();
+        }
 
         if(getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,7 +98,7 @@ public class RankingActivity extends AppCompatActivity {
                         }
                         setFirstPlace(users.get(0));
                         users.remove(0);
-                        rankingAdapter = new RankingAdapter(users);
+                        rankingAdapter = new RankingAdapter(users, currentUserID);
                         recyclerView.setAdapter(rankingAdapter);
                         progressDialog.dismiss();
                     }
