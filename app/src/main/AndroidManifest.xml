@@ -24,9 +24,9 @@
         <activity android:name=".activities.AccountActivity" />
         <activity android:name=".activities.SimulatedActivity" />
         <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.SimulatedCorrectionActivity" />
-        <activity android:name=".activities.RankingActivity" />
-        <activity android:name=".activities.CorrectedSimulationActivity" />
+        <activity android:name=".activities.CorrectionActivity" />
+        <activity android:name=".activities.RankingActivity"/>
+        <activity android:name=".activities.CorrectedSimulationActivity"/>
         <activity android:name=".activities.AboutActivity"></activity>
     </application>
 
