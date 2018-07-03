@@ -1,6 +1,8 @@
 package br.com.pdm.enade_engcomp_app.activities;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -66,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() == null){
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("EXIT", true);
                     finish();
                     startActivity(intent);
                 }
@@ -97,12 +102,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         mAuth.addAuthStateListener(mAuthListener);
+
+
         super.onStart();
     }
 
     @Override
     protected void onResume() {
-        populateDrawbar();
+
+        if(mAuth.getCurrentUser() != null){
+            populateDrawbar();
+        }
+
         super.onResume();
     }
 
@@ -128,9 +139,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 userName = findViewById(R.id.userName);
                 userPoints = findViewById(R.id.userPoints);
 
-                Glide.with(MainActivity.this).load(user.getPhoto()).into(userImage);
-                userName.setText(user.getName());
-                userPoints.setText(user.getPoints()+"");
+                //TODO: revise null views at login
+                if(userImage != null){
+                    Glide.with(MainActivity.this).load(user.getPhoto()).into(userImage);
+                }
+                if(userName != null){
+                    userName.setText(user.getName());
+                }
+                if(userPoints != null){
+                    userPoints.setText(user.getPoints()+"");
+                }
             }
         });
         progressDialog.dismiss();
@@ -146,15 +164,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.menu_about:
-
+                intent = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.menu_logout:
-                mAuth.signOut();
+                showLogoutAlert();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void showLogoutAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.logout_confirm)
+                .setTitle(R.string.logout)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //logout
+                        mAuth.signOut();
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // do nothing
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private class MyAdapter extends FragmentPagerAdapter {
