@@ -232,14 +232,14 @@ public class SimulatedActivity extends AppCompatActivity {
 
         ImageView imageView = (ImageView) findViewById(R.id.question_image);
         if(image != "" && image != null){
-            progressDialog.show();
+            //progressDialog.show();
             // Create glide request manager
             RequestManager requestManager = Glide.with(this);
             // Create request builder and load image.
             RequestBuilder requestBuilder = requestManager.load(image);
             // Show image into target imageview.
             requestBuilder.into(imageView);
-            progressDialog.dismiss();
+            //progressDialog.dismiss();
         } else {
             imageView.setImageResource(0);
         }

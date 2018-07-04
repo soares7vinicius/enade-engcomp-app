@@ -1,6 +1,7 @@
 package br.com.pdm.enade_engcomp_app.activities.recyclerview;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -39,13 +40,13 @@ public class TrainningViewHolder extends RecyclerView.ViewHolder implements View
 
         String icon = category.getIcon();
         ImageView iconCategory = (ImageView)this.trainningCard.getChildAt(0).findViewById(R.id.iconTrainning);
-
-        // Create glide request manager
-        RequestManager requestManager = Glide.with(this.trainningCard);
-        // Create request builder and load image.
-        RequestBuilder requestBuilder = requestManager.load(icon);
-        // Show image into target imageview.
-        requestBuilder.into(iconCategory);
+        iconCategory.setImageResource(R.drawable.ic_book_green_36dp);
+//        // Create glide request manager
+//        RequestManager requestManager = Glide.with(this.trainningCard);
+//        // Create request builder and load image.
+//        RequestBuilder requestBuilder = requestManager.load(icon);
+//        // Show image into target imageview.
+//        requestBuilder.into(iconCategory);
     }
 
 
